@@ -27,8 +27,9 @@ configs = {
     'creditg': {'prompts': [StringTemplate('${note}')]},
     'calhousing': {'prompts': [StringTemplate('${note}')]},
     'jungle': {'prompts': [StringTemplate('${note}')]},
+    'seer': {'prompts': [StringTemplate('${note}')]},
 }
-public_tasks = ['income', 'car', 'heart', 'diabetes', 'blood', 'bank', 'creditg', 'calhousing', 'jungle']
+public_tasks = ['income', 'car', 'heart', 'diabetes', 'blood', 'bank', 'creditg', 'calhousing', 'jungle', 'seer']
 
 
 def parse_args():

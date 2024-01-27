@@ -1,0 +1,18 @@
+dataset: seer
+templates:
+  1a7bf717-f137-42a9-8dbf-d7f39538e817: !Template
+    name: seer
+    id: 1a7bf717-f137-42a9-8dbf-d7f39538e817
+    reference: ''
+    answer_choices: 'No ||| Yes'
+    jinja: '{{note}}
+      
+      
+      Will this patient survive for the next 5 years? Yes or no?
+      Answer: 
+      |||
+      {{ answer_choices[label] }}'
+    metadata: !TemplateMetadata
+      choices_in_prompt: true
+      metrics: ['accuracy']
+      original_task: true

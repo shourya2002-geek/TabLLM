@@ -652,3 +652,61 @@ template_wine_list_values = '${fixed_acidity}\n' \
 template_config_wine_list_values = template_config_wine_list
 template_wine_list_shuffled = template_wine_list
 template_config_wine_list_shuffled = template_config_wine_list
+
+
+########################################################################################################################
+# seer
+########################################################################################################################
+
+template_config_seer = {
+    'pre': {
+        'Age recode with single ages and 85+': lambda x: f"{int(x.split()[0])}",
+        'CS version input original (2004-2015)': lambda x: f"{int(x)}",
+        'RX Summ--Surg Prim Site (1998+)': lambda x: f"{int(x)}",
+        'Year of diagnosis': lambda x: f"{int(x)}",
+        'CS extension (2004-2015)': lambda x: f"{int(x)}",
+        'CS version input current (2004-2015)': lambda x: f"{int(x)}",
+        'Primary Site': lambda x: f"{int(x)}"
+        
+    }
+}
+
+template_seer = 'The Age is ${Age recode with single ages and 85+}. ' \
+                    'The CS version input original is ${CS version input original (2004-2015)}. ' \
+                    'The RX Summ--Surg Prim Site after 1998 is ${RX Summ--Surg Prim Site (1998+)}. ' \
+                    'The Year of diagnosis is ${Year of diagnosis}. ' \
+                    'The CS extension from 2004 to 2015 is ' \
+                    '${CS extension (2004-2015)}. ' \
+                    'The Primary site is ${Primary Site}' \
+
+template_config_seer_list = template_config_seer
+
+template_config_seer_list = template_config_seer
+template_seer_list = '- Age: ${Age recode with single ages and 85+}\n' \
+                         '- Original CS version input from 2004 to 2015: ${CS version input original (2004-2015)}\n' \
+                         '- RX Summ--Surg Prim Site after 1998: ${RX Summ--Surg Prim Site (1998+)}\n' \
+                         '- Year of diagnosis: ${Year of diagnosis}\n' \
+                         '- CS extension from 2004 to 2015' \
+                         '${CS extension (2004-2015)}\n' \
+                         '- Primary Site: ${Primary Site}\n' \
+                         
+template_seer_list_permuted = '- Age: ${RX Summ--Surg Prim Site (1998+)}\n' \
+                                '- Original CS version input from 2004 to 2015: ${CS extension (2004-2015)}\n' \
+                                '- RX Summ--Surg Prim Site after 1998: ${Age recode with single ages and 85+}\n' \
+                                '- Year of diagnosis: ${Primary Site}\n' \
+                                '- CS extension from 2004 to 2015' \
+                                '${CS version input original (2004-2015)}\n' \
+                                '- Primary Site: ${Year of diagnosi}\n' 
+
+
+template_config_seer_list_permuted = template_config_seer_list
+template_seer_list_values = '${Age recode with single ages and 85+}\n' \
+                                '${CS version input original (2004-2015)}\n' \
+                                '${RX Summ--Surg Prim Site (1998+)}\n' \
+                                '${Year of diagnosis}\n' \
+                                '${CS extension (2004-2015)}\n' \
+                                '${Primary Site}\n' \
+                                
+template_config_seer_list_values = template_config_seer_list
+template_seer_list_shuffled = template_seer_list
+template_config_seer_list_shuffled = template_config_seer_list

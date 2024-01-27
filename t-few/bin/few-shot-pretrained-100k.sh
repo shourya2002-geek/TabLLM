@@ -61,6 +61,9 @@ do
         if [[ $dataset = *"jungle"* ]]; then
           num_steps=270000
         fi
+        if [[ $dataset = *"seer"* ]]; then
+          num_steps=4700
+        fi
       fi
 
       for seed in 42 1024 0 1 32
