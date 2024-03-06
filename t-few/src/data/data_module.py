@@ -2,7 +2,7 @@ import torch
 import numpy as np
 from pytorch_lightning import LightningDataModule
 
-from src.data.dataset_readers import is_custom_task
+from .dataset_readers import is_custom_task
 
 
 class FinetuneDataModule(LightningDataModule):

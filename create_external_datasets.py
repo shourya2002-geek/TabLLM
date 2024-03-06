@@ -41,7 +41,7 @@ cat_idx_dict = {
     "bank": [1,2,3,4,6,7,8,10,15],
     "jungle": [],
     "calhousing": [],
-    "seer": [1, 5, 7, 8, 11, 13, 14, 15]
+    "seer": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
 }
 bin_num = 10
 
@@ -186,6 +186,7 @@ def main():
             # notes = notes[0:10]
             old_size = len(notes)
             notes = Dataset.from_dict({'text': list(itertools.chain(*[table_to_text(n) for n in notes]))})
+            print(notes.shape[0],num_features * old_size)
             assert notes.shape[0] == num_features * old_size
             notes = notes.map(serialize)
             # Debug
@@ -218,7 +219,8 @@ def main():
     for i in range(0, min(10, len(notes))):
         print('----')
         print(notes[i])
-    dataset = Dataset.from_dict({'note': notes, 'label': dataset['label'].to_list()})
+
+    dataset = Dataset.from_dict({'note': notes, 'label': dataset['label'].to_list()})  
 
     if not args.debug:
         logger.info(f"Store generated datasets to {output_dir}/{dataset_name}")
@@ -367,7 +369,7 @@ def load_train_validation_test(dataset_name, data_dir):
     elif dataset_name == "seer":
         dataset = pd.read_csv(data_dir / 'df_cleaned.csv')
         original_size = len(dataset)
-        dataset = dataset.rename(columns={'Outcome': 'Survival months'})
+        dataset = dataset.rename(columns={'Survived > 5 Years': 'label'})
         dataset_train, dataset_valid, dataset_test = train_validation_test_split(dataset)
         assert len(dataset_train) + len(dataset_valid) + len(dataset_test) == original_size
 
@@ -389,6 +391,9 @@ def load_train_validation_test(dataset_name, data_dir):
         'seer': 16
 
     }
+
+    print(len(dataset.columns))
+    print(dataset.columns)
     assert dataset_name in dataset_specs.keys() and len(dataset.columns) == dataset_specs[dataset_name]
 
     dataset = {"train": dataset_train, "validation": dataset_valid, "test": dataset_test}

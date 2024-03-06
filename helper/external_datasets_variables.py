@@ -40,6 +40,7 @@ other_parties_dict = {'none': 'none', 'co applicant': 'co-applicant', 'guarantor
 property_magnitude_dict = {'car': 'car or other, not in attribute 6', 'life insurance': 'building society savings agreement/ life insurance', 'no known property': 'unknown / no property', 'real estate': 'real estate'}
 job_dict = {'high qualif/self emp/mgmt': 'management/ self-employed/ highly qualified employee/ officer', 'skilled': 'skilled employee / official', 'unemp/unskilled non res': 'unemployed/ unskilled - non-resident', 'unskilled resident': 'unskilled - resident'}
 own_telephone_dict = {'none': 'none', 'yes': 'yes, registered under the customers name'}
+
 template_config_creditg = {
     'pre': {
         'checking_status': lambda x: checking_status_dict[x],
@@ -654,59 +655,42 @@ template_wine_list_shuffled = template_wine_list
 template_config_wine_list_shuffled = template_config_wine_list
 
 
-########################################################################################################################
-# seer
-########################################################################################################################
+#seer
+seer_feature_names = [
+    ('age_recode', 'Age of the patient at diagnosis for this cancer'),
+    ('site_recode', 'Recode based on Primary Site and ICD-O-3 Histology in order to make analyses of site/histology groups easier'),
+    ('cs_version_input_original', 'Number of the version used to initially code CS fields'),
+    ('rx_summ', 'Surgery of Primary Site describes a surgical procedure that removes and/or destroys tissue of the primary site performed as part of the initial work-up or first course of therapy'),
+    ('year', 'Year the tumor was first diagnosed by a recognized medical practitioner, whether clinically or microscopically confirmed'),
+    ('icdo_hist', 'Labeled version of ICD-O-3 values for all behaviors'),
+    ('cs_extension', 'Information on extension of the tumor available for 2004-2015 diagnosis years'),
+    ('first_malignant', 'Marker or flag to denote whether a diagnosed cancer is the patient\'s first instance of a malignant (cancerous) primary tumor'),
+    ('grade_thru', 'Grading and differentiation to indicate the aggressiveness or differentiation level of a tumor'),
+    ('cs_version_input_current', 'Number of the version of the CS after input fields have been updated or recoded'),
+    ('primary_site', 'Site in which the primary tumor originated'),
+    ('laterality', 'Side of a paired organ or side of the body on which the reportable tumor originated'),
+    ('sex', 'Sex of the patient at diagnosis'),
+    ('race', 'Race/ethnicity of the patient at diagnosis'),
+    ('median_income', 'Median household income inflation adj to 2019')
+]
+
 
 template_config_seer = {
     'pre': {
-        'Age recode with single ages and 85+': lambda x: f"{int(x.split()[0])}",
-        'CS version input original (2004-2015)': lambda x: f"{int(x)}",
-        'RX Summ--Surg Prim Site (1998+)': lambda x: f"{int(x)}",
-        'Year of diagnosis': lambda x: f"{int(x)}",
-        'CS extension (2004-2015)': lambda x: f"{int(x)}",
-        'CS version input current (2004-2015)': lambda x: f"{int(x)}",
-        'Primary Site': lambda x: f"{int(x)}"
+        'age_recode': lambda x: int(x.split()[0].replace('+', '')) if isinstance(x, str) else x
         
     }
 }
 
-template_seer = 'The Age is ${Age recode with single ages and 85+}. ' \
-                    'The CS version input original is ${CS version input original (2004-2015)}. ' \
-                    'The RX Summ--Surg Prim Site after 1998 is ${RX Summ--Surg Prim Site (1998+)}. ' \
-                    'The Year of diagnosis is ${Year of diagnosis}. ' \
-                    'The CS extension from 2004 to 2015 is ' \
-                    '${CS extension (2004-2015)}. ' \
-                    'The Primary site is ${Primary Site}' \
-
+template_seer = ' '.join(['The ' + v + ' is ${' + k + '}.' for k, v in seer_feature_names])
+template_seer_list = '\n'.join(['- ' + v + ': ${' + k + '}' for k, v in seer_feature_names])
+template_seer_list_values = '\n'.join(['${' + k + '}' for k, v in seer_feature_names])
+seer_permutation = [5, 14, 7, 10, 15, 9, 12, 4, 11, 13, 2, 3, 1, 6, 8]
+template_seer_list_permuted = '\n'.join(['- ' + x[1] + ': ${' + seer_feature_names[seer_permutation[i] - 1][0] + '}' for i, x in enumerate(seer_feature_names)])
 template_config_seer_list = template_config_seer
-
-template_config_seer_list = template_config_seer
-template_seer_list = '- Age: ${Age recode with single ages and 85+}\n' \
-                         '- Original CS version input from 2004 to 2015: ${CS version input original (2004-2015)}\n' \
-                         '- RX Summ--Surg Prim Site after 1998: ${RX Summ--Surg Prim Site (1998+)}\n' \
-                         '- Year of diagnosis: ${Year of diagnosis}\n' \
-                         '- CS extension from 2004 to 2015' \
-                         '${CS extension (2004-2015)}\n' \
-                         '- Primary Site: ${Primary Site}\n' \
-                         
-template_seer_list_permuted = '- Age: ${RX Summ--Surg Prim Site (1998+)}\n' \
-                                '- Original CS version input from 2004 to 2015: ${CS extension (2004-2015)}\n' \
-                                '- RX Summ--Surg Prim Site after 1998: ${Age recode with single ages and 85+}\n' \
-                                '- Year of diagnosis: ${Primary Site}\n' \
-                                '- CS extension from 2004 to 2015' \
-                                '${CS version input original (2004-2015)}\n' \
-                                '- Primary Site: ${Year of diagnosi}\n' 
-
-
-template_config_seer_list_permuted = template_config_seer_list
-template_seer_list_values = '${Age recode with single ages and 85+}\n' \
-                                '${CS version input original (2004-2015)}\n' \
-                                '${RX Summ--Surg Prim Site (1998+)}\n' \
-                                '${Year of diagnosis}\n' \
-                                '${CS extension (2004-2015)}\n' \
-                                '${Primary Site}\n' \
-                                
+template_config_seer_list_permuted = template_config_seer
 template_config_seer_list_values = template_config_seer_list
 template_seer_list_shuffled = template_seer_list
-template_config_seer_list_shuffled = template_config_seer_list
+template_config_seer_list_shuffled = template_config_seer
+
+
